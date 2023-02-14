@@ -3,3 +3,11 @@ Chapter 3:-   Handling Errors + Stubbing vs. Spying + Eliminating Invalid Paths
 1.We are hailing error on client error and making sure Remote FeedLoader gives error when client error.
 2.Error captured as array of errors in Tests , same like we did for Request urls, to help up get content checked.
 3.In this process , we made a HTTPClinet Spy to capture a values of error , here we are mixing 2 concepts of Stubing and Spying.
+
+4.We updated a HttpClient Spy with completion array, its helping us o arrange the tests as:- 
+	Arrange:- Given a sun and client spy,
+	Act:- When we tell the sut to load and we complete the client's with Http error 
+	Assert:- Then we expect the captured load error to be connectivity error.
+
+	Previously:- We were setting http error as part of Arrange block , we have more sensible structured of test now.
+
