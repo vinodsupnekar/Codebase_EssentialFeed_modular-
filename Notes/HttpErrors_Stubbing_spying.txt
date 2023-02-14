@@ -11,3 +11,8 @@ Chapter 3:-   Handling Errors + Stubbing vs. Spying + Eliminating Invalid Paths
 
 	Previously:- We were setting http error as part of Arrange block , we have more sensible structured of test now.
 
+
+5. We added response with enum cases to avoid (nil, nil ) scenario, we excluding cases that will never occur in the code.
+As combining optional will be dangerous , we need to fix it.
+
+6. Also we updated spy for more proper codebase.
