@@ -1,0 +1,9 @@
+Chapter .   A Classicist TDD Approach (No Mocking) to Mapping JSON with Decodable + Domain-Specific Models
+
+1.We have added tests for covering error cases for non - 200 http response code, and according modifies Client protocol and then later on Feed Feature protocol to give back FeedItem response back.
+
+2.FeedItem class has API details like coding keys related information like "image" to "imageURL" mapping data visible in Feed Feature module.
+Now this can affect our abstraction as it is API module details(RemoteFeedLoader).
+
+3.We added Item inside API Module (RemoteFeed Loader) , and mapped it to FeedItem(Feed Feature component), so that we are not leaking any implementation details outside the API module now.
+
