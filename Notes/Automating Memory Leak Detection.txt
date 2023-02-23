@@ -1,0 +1,8 @@
+Automating Memory Leak Detection
+ 
+1. We have added tests to find memory leak.
+
+2.Also added tests for checking the behaviour of Remote FeedLoader's completion with Result.
+ Checked that If Remote Feed loader instance (sut) is deallocated then, then there should not be any captured results in the Test.
+
+3.Refactoring of FeedItems Mapper is done to have only one map method
