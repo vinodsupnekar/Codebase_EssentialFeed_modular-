@@ -1,0 +1,36 @@
+A classist TDD approach:-
+1. Started with 200 response test but with invalid JSON Test.
+
+2. Spy updated with Data as a complete with status code method. On success we want to get Data and Response now.
+—HTTPClient Result enum updated with success type.
+
+3. Test code refactored with expert helper method with  :- sut to complete with Error  when action().
+
+4. Test code update with above api , and as another method added inside Test, File  Line added to point out to correct line.
+
+5.Started with Delivering Test with Empty Feed Item with 200 status.
+Now as sut’s load method will receive FeedItems as an response , we need to update response with Result type.
+Updated load with new Result type.and its body u[pdated to return a correct Result wrapped.
+
+6.Delivers Item on 200 status.
+  Created Item object and json from it, and tried to complete client with this json  in this test.
+ Here  Feed item data expected to be mapped  (decoded )from JSON Feed item client response, hence decoding is involved here.
+
+7. Now is step 6 , api details gets leaked inside Feed Feature’s FeedItem model as encoding strings mapping added in it, as its a generic Module, and coding keys details are API detail , we need to make it a part of API Module, hence we created similar Model in API Module and mapped it to FeedITem with Computed property.
+
+8.Inside Tests , factory created for Item , to return a model OR JSON from of it, and used reduce Higher order function to remove key-value pair with nil value if it.
+
+Since Swift 5, you can use the compactMapValues method instead of reduce to remove nil values from a Dictionary. For example:
+
+let json = [
+  "id": id.uuidString,
+  "description": description,
+  "location": location,
+  "image": imageURL.absoluteString
+].compactMapValues { $0 }
+
+9. With invalid status code , and valid json need to test it code works 
+And it drived us to explicit check on status code in load().
+
+10. Feed Item Mapper added to refactor the code inside load().
+
