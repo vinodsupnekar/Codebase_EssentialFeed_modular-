@@ -15,22 +15,8 @@ public final class RemoteFeedLoader {
         case connectivity
         case invalidData
     }
+    public typealias Result = LoadFeedResult<Error>
     
-    public enum Result: Equatable {
-        public static func == (lhs: Result, rhs: Result) -> Bool {
-            switch (lhs, rhs) {
-            case (.success, .success):
-                return true
-            case (.failure, .failure):
-                return true
-            default:
-                return false
-            }
-        }
-        
-        case success([FeedItem])
-        case failure(Error)
-    }
     
     public init(url:URL, client: HTTPClient) {
         self.url = url
