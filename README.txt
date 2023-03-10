@@ -29,12 +29,25 @@ Given the customer doesn't have connectivity
 
 And there’s a cached version of the feed
 
+And the cache is less than seven days old 
+
 When the customer requests to see the feed
 
 Then the app should display the latest feed saved
 
-
 2.
+Given the customer doesn't have connectivity
+
+And there’s a cached version of the feed
+
+And the cache is seven days or more
+
+When the customer requests to see the feed
+
+Then the app should display an error message
+
+
+3.
 Given the customer doesn't have connectivity
 
 And the cache is empty
@@ -46,39 +59,60 @@ Then the app should display an error message
 
 We can then start drafting Use Cases, essentially small recipes, for translating the requirements in procedures that we will then turn into code.
 
-Load Feed Use Case
+###Load Feed From Remote Use Case
 Data (Input):
  -URL
-Primary course (happy path):
+# Primary course (happy path):
 1.Execute "Load Feed Items" command with above data.
 2.System downloads data from the URL.
 3.System validates downloaded data.
 4.System creates feed items from valid data.
 5.System delivers feed items.
 
-Invalid data – error course (sad path):
-1.System delivers error.
+# Invalid data – error course (sad path):
+1.System delivers invalid data error.
 
-No connectivity – error course (sad path):
-1.System delivers error.
+# No connectivity – error course (sad path):
+1.System delivers connectivity error.
 
-Load Feed Fallback (Cache) Use Case
+### Load Feed From Cache Use Case
 Data (Input):
--Max age
+-Max age (7 days)
 
-Primary course (happy path):
-1.Execute "Retrieve Feed Items" command with above data.
+# Primary course (happy path):
+1.Execute "Load Feed Items" command with above data.
 2.System fetches feed data from cache.
+3.System validates cache is less than seven days old.
 3.System creates feed items from cached data.
 4.System delivers feed items.
-5.No cache course (sad path):
-6.System delivers no feed items.
-7.Save Feed Items Use Case
-Data (Input):
+
+# Error course (sad path):
+1.System delivers error.
+
+# Expired cache course (sad path):
+1.System delete cache
+2.System delivers no feed items.
+
+# Empty cache course (sad path):
+1.System delivers no feed items.
+
+
+### Cache Feed Use Case
+
+# Data (Input):
 -Feed items
-Primary course (happy path):
+
+# Primary course (happy path):
 1.Execute "Save Feed Items" command with above data.
+4.System delete old cache data.
 2.System encodes feed items.
 3.System timestamps the new cache.
-4.System replaces the cache with new data.
-5.System delivers a success message.
+5.System saves new cache data.
+6.System delivers a success message.
+
+### Deleting error course (sad path)
+1. System delivers error.
+
+### Saving error course (sad path):
+1. System delivers error.
+
