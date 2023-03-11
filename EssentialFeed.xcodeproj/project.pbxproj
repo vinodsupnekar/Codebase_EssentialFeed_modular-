@@ -23,6 +23,7 @@
 		048AD98329BB3F0400F04C73 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048AD98229BB3F0400F04C73 /* CacheFeedUseCaseTests.swift */; };
 		04920745299B946900068E8D /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04920744299B946900068E8D /* RemoteFeedLoader.swift */; };
 		04E0DDAB29BC93E9002286A3 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0DDAA29BC93E9002286A3 /* LocalFeedLoader.swift */; };
+		04E0DDB029BC94C8002286A3 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0DDAF29BC94C8002286A3 /* FeedStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		048AD98229BB3F0400F04C73 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		04920744299B946900068E8D /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		04E0DDAA29BC93E9002286A3 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
+		04E0DDAF29BC94C8002286A3 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				04E0DDAA29BC93E9002286A3 /* LocalFeedLoader.swift */,
+				04E0DDAF29BC94C8002286A3 /* FeedStore.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				04046E392994CFEE005CA345 /* FeedLoader.swift in Sources */,
 				043D530329A7210C0084F6ED /* FeedItemMapper.swift in Sources */,
 				04920745299B946900068E8D /* RemoteFeedLoader.swift in Sources */,
+				04E0DDB029BC94C8002286A3 /* FeedStore.swift in Sources */,
 				04E0DDAB29BC93E9002286A3 /* LocalFeedLoader.swift in Sources */,
 				043D776529AF829B009A0722 /* URLSessionHttpClient.swift in Sources */,
 				043D52FF29A710D50084F6ED /* HTTPClient.swift in Sources */,
