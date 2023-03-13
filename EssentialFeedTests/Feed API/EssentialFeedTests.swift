@@ -76,18 +76,18 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     func test_load_deliversItemsOn200ResponseWithJSONItem() {
         let (sut, client) = makeSUT()
         
-        let item1 = FeedItem(id: UUID(), description: nil, location: nil, imageURL: URL(string:"http://a-url.com")!)
+        let item1 = FeedImage(id: UUID(), description: nil, location: nil, url: URL(string:"http://a-url.com")!)
         
         let item1JSON = [
             "id" : item1.id.uuidString,
-            "image": item1.imageURL.absoluteString
+            "image": item1.url.absoluteString
         ]
                 
-        let item2 = FeedItem(id: UUID(), description: "a description", location: "a location", imageURL: URL(string:"http://another-url.com")!)
+        let item2 = FeedImage(id: UUID(), description: "a description", location: "a location", url: URL(string:"http://another-url.com")!)
         
         let item2JSON = [
             "id" : item2.id.uuidString,
-            "image": item2.imageURL.absoluteString,
+            "image": item2.url.absoluteString,
             "description": item2.description,
             "location": item2.location
         ]
@@ -130,10 +130,10 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     private func makeFeedItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) {
-        let feedItem = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+        let feedItem = FeedImage(id: id, description: description, location: location, url: imageURL)
         _ = [
             "id" : feedItem.id.uuidString,
-            "image": feedItem.imageURL.absoluteString,
+            "image": feedItem.url.absoluteString,
             "description": feedItem.description,
             "location": feedItem.location
         ].reduce(into: [String: Any]()) { (acc, e) in
