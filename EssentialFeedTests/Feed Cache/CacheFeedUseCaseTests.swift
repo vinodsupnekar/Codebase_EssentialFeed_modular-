@@ -127,8 +127,6 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, expectedError)
     }
     
-
-    
     private func uniqueImage() -> FeedImage {
         return FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())
     }
