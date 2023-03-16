@@ -1,0 +1,3 @@
+4.  Persiatcne Visualizing and Solving High-Coupling Issues by Decentralizing Components Using Data Transfer Model Representations
+
+- Created LocalFeedItem model , this technique of making almost similar copy of Data model to remove strong cooling is called as DTO's (Data Transfer Objects).

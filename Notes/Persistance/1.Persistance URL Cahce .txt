@@ -1,0 +1,33 @@
+Persistance Module:- 
+1. URLCache as a Persistence Alternative & Solving The Infamous “But it works on my machine!” Caching Problem
+
+URLLoading system has default cache mechanism.
+ URLCache:- 
+   Memory - 4MB
+  Disk Capacity:- 20MB
+
+As rule , response are cached only when all of the following are true.
+
+ As a rule, responses are cached only when all of the following are true:
+	•	The request is for an HTTP or HTTPS URL (or your own custom networking protocol that supports caching). 
+	•	The request was successful (with a status code in the 200–299 range). 
+	•	The provided response came from the server, rather than out of the cache. 
+	•	The session configuration’s cache policy allows caching. 
+	•	The provided URLRequest object's cache policy (if applicable) allows caching. 
+	•	The cache-related headers in the server’s response (if present) allow caching. 
+	•	The response size is small enough to reasonably fit within the cache. (For example, if you provide a disk cache, the response must be no larger than about 5% of the disk cache size.) 
+
+
+
+ let cache = URLCache(memoryCapacity: 10*1024*1024, diskCapacity: 100*1024*1024)
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = cache
+        configuration.requestCachePolicy = .reloadRevalidatingCacheData
+
+            OR
+        
+        let url = URL(string: "http://any-url.com")!
+        let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30)
+
+
+
