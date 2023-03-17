@@ -43,7 +43,6 @@ public final class LocalFeedLoader {
             case let .found(feed: feed, timetamp) where self.validate(timetamp):
                 completion(.success(feed.toModels()))
             case .found:
-                self.store.deleteCacheFeed { _ in }
                 completion(.success([]))
             case.emtpy:
                 completion(.success([]))
@@ -56,7 +55,11 @@ public final class LocalFeedLoader {
             switch result{
             case .failure :
                 store.deleteCacheFeed { _ in }
-            default:
+                
+            case let .found(feed: _, timestamp: timestamp) where !self.validate(timestamp):
+                self.store.deleteCacheFeed { _ in }
+                
+            case .found, .emtpy:
                 break
             }
         }
