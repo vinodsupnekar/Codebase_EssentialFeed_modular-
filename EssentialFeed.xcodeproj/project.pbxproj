@@ -20,6 +20,8 @@
 		043D530329A7210C0084F6ED /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D530229A7210C0084F6ED /* FeedItemMapper.swift */; };
 		043D775F29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D775E29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift */; };
 		043D776529AF829B009A0722 /* URLSessionHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D776429AF829B009A0722 /* URLSessionHttpClient.swift */; };
+		043DF88329C3FAED00C66BF4 /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF88229C3FAED00C66BF4 /* FeedCacheTestHelpers.swift */; };
+		043DF88829C3FC9D00C66BF4 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF88729C3FC9D00C66BF4 /* SharedTestHelpers.swift */; };
 		04415CFE29B08D12009D3D5B /* XCTestCase+MemoryLeaksTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D775E29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift */; };
 		045131CB29AE06E200AF3168 /* URLSessionHttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045131CA29AE06E200AF3168 /* URLSessionHttpClientTests.swift */; };
 		0488BD2729BE56F000E7BF54 /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0488BD2629BE56F000E7BF54 /* RemoteFeedItem.swift */; };
@@ -66,6 +68,8 @@
 		043D530229A7210C0084F6ED /* FeedItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemMapper.swift; sourceTree = "<group>"; };
 		043D775E29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracker.swift"; sourceTree = "<group>"; };
 		043D776429AF829B009A0722 /* URLSessionHttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHttpClient.swift; sourceTree = "<group>"; };
+		043DF88229C3FAED00C66BF4 /* FeedCacheTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheTestHelpers.swift; sourceTree = "<group>"; };
+		043DF88729C3FC9D00C66BF4 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		045131CA29AE06E200AF3168 /* URLSessionHttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHttpClientTests.swift; sourceTree = "<group>"; };
 		0488BD2629BE56F000E7BF54 /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
 		0488BD2B29BE573F00E7BF54 /* LocalFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImage.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				04188E1129C08794003480E6 /* FeedStoreSpy.swift */,
+				043DF88229C3FAED00C66BF4 /* FeedCacheTestHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				043D775E29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift */,
+				043DF88729C3FC9D00C66BF4 /* SharedTestHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,10 +383,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				043DF88329C3FAED00C66BF4 /* FeedCacheTestHelpers.swift in Sources */,
 				045131CB29AE06E200AF3168 /* URLSessionHttpClientTests.swift in Sources */,
 				04046E252994C7A1005CA345 /* EssentialFeedTests.swift in Sources */,
 				04188E1229C08794003480E6 /* FeedStoreSpy.swift in Sources */,
 				048AD98329BB3F0400F04C73 /* CacheFeedUseCaseTests.swift in Sources */,
+				043DF88829C3FC9D00C66BF4 /* SharedTestHelpers.swift in Sources */,
 				04188E0C29C08514003480E6 /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				043D775F29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift in Sources */,
 				049F038729C2A6F50087D676 /* ValidateLoadCacheUseCaseTests.swift in Sources */,
