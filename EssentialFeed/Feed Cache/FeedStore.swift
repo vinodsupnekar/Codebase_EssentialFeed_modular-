@@ -9,7 +9,7 @@ import Foundation
 
 public enum RetrieveCachedFeedResult {
     case emtpy
-    case found(feed: [LocalFeedImage], timestamp: Date)
+    case found((feed: [LocalFeedImage], timestamp: Date))
     case failure(Error)
 }
 
