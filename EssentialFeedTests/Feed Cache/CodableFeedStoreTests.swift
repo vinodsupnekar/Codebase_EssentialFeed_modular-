@@ -67,6 +67,10 @@ class CodableFeedStore {
             completion(error)
         }
     }
+    
+    func deleteCachedFeed(completion: @escaping FeedStore.DeletionCompletion) {
+        completion(nil)
+    }
 }
 
 class CodableFeedStoreTests: XCTestCase {
@@ -157,8 +161,20 @@ class CodableFeedStoreTests: XCTestCase {
         let insertionError = insert((feed, timestamp), to: sut)
         
         XCTAssertNotNil(insertionError, "Expected to insert cache successfully")
-        
     }
+    
+    func test_delete_hasNoSideEffectsOnEmptyCache() {
+    
+        let sut = makeSUT()
+        
+        let exp = expectation(description: "wait for cache deletion")
+        sut.deleteCachedFeed { deletionError in
+            XCTAssertNil(deletionError, "Expected empty cache deletion to succed")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+    
     // -MARK:- Helpers
     @discardableResult
     private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date) ,to sut: CodableFeedStore) -> Error? {
@@ -171,6 +187,17 @@ class CodableFeedStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
         return insertionError
     }
+    
+//    private func deleteCache(from sut: CodableFeedStore) -> Error? {
+//        var deletionError: Error?
+//        let exp = expectation(description: "wait for cache retrieval")
+//        sut.delete(cache.feed, timestamp: cache.timestamp) { receivedDeletionError in
+//            deletionError = receivedDeletionError
+//            exp.fulfill()
+//        }
+//        wait(for: [exp], timeout: 1.0)
+//        return deletionError
+//    }
     
     private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
         
