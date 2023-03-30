@@ -14,10 +14,15 @@ protocol FeedStoreSpecs {
      func test_retrieve_deliversFoundValueOnNonEmptyCache()
      func test_retrieve_hasNoSideEffectsOnNonEmptyCache()
     
+     func test_insert_deliversNoErrorOnEmptyCache()
+     func test_insert_deliversNoErrorOnNonEmptyCache()
      func test_insert_overridesPrevioslyInsertedData()
     
+     func test_delete_deliversNoErrorOnEmptyCache()
+    func test_delete_deliversNoErrorOnNonEmptyCache()
      func test_delete_hasNoSideEffectsOnEmptyCache()
      func test_delete_emptiesPreviouslyInsertedCache()
+    
      func test_storeSideEffects_runSerially()
 }
 
@@ -108,6 +113,15 @@ class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
     
+    func test_insert_deliversNoErrorOnNonEmptyCache() {
+        let sut = makeSUT()
+        insert((uniqueImageFeed().local, Date()), to: sut)
+        
+        let insertionError = insert((uniqueImageFeed().local, Date()), to: sut)
+       
+        XCTAssertNil(insertionError, "Expected to override cache successfully")
+    }
+    
     func test_insert_overridesPrevioslyInsertedData() {
         let sut = makeSUT()
         let feed = uniqueImageFeed().local
@@ -163,12 +177,28 @@ class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
     }
     
-    func test_delete_emptiesPreviouslyInsertedCache() {
+    func test_delete_deliversNoErrorOnEmptyCache() {
+        let sut = makeSUT()
+
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+    }
+    
+    func test_delete_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
         insert((uniqueImageFeed().local, Date()), to: sut)
         
         let deletionError = deleteCache(from: sut)
         XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
+    }
+    
+    
+    func test_delete_emptiesPreviouslyInsertedCache() {
+        let sut = makeSUT()
+        insert((uniqueImageFeed().local, Date()), to: sut)
+        
+        deleteCache(from: sut)
         
         expect(sut, toRetrieve: .emtpy)
     }
