@@ -35,6 +35,7 @@
 		04E0DDAB29BC93E9002286A3 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0DDAA29BC93E9002286A3 /* LocalFeedLoader.swift */; };
 		04E0DDB029BC94C8002286A3 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0DDAF29BC94C8002286A3 /* FeedStore.swift */; };
 		04F7730C29D528FD00464D8B /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7730B29D528FD00464D8B /* FeedStoreSpecs.swift */; };
+		04F7731129D52A2200464D8B /* XCTestCase+FeedStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7731029D52A2100464D8B /* XCTestCase+FeedStoreSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		04E0DDAA29BC93E9002286A3 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		04E0DDAF29BC94C8002286A3 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		04F7730B29D528FD00464D8B /* FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpecs.swift; sourceTree = "<group>"; };
+		04F7731029D52A2100464D8B /* XCTestCase+FeedStoreSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpec.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 			children = (
 				04188E1129C08794003480E6 /* FeedStoreSpy.swift */,
 				043DF88229C3FAED00C66BF4 /* FeedCacheTestHelpers.swift */,
+				04F7731029D52A2100464D8B /* XCTestCase+FeedStoreSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				04188E1229C08794003480E6 /* FeedStoreSpy.swift in Sources */,
 				048AD98329BB3F0400F04C73 /* CacheFeedUseCaseTests.swift in Sources */,
 				043DF88829C3FC9D00C66BF4 /* SharedTestHelpers.swift in Sources */,
+				04F7731129D52A2200464D8B /* XCTestCase+FeedStoreSpec.swift in Sources */,
 				04188E0C29C08514003480E6 /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				043D775F29AF5273009A0722 /* XCTestCase+MemoryLeaksTracker.swift in Sources */,
 				04F7730C29D528FD00464D8B /* FeedStoreSpecs.swift in Sources */,
