@@ -96,6 +96,7 @@ class CodableFeedStoreTests: XCTestCase {
         let insertionError = insert((feed, timestamp), to: sut)
         
         XCTAssertNotNil(insertionError, "Expected to insert cache successfully")
+        expect(sut, toRetrieve: .emtpy)
     }
     
     func test_delete_hasNoSideEffectsOnEmptyCache() {
