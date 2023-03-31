@@ -24,13 +24,8 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     
     func test_retrieve_deliversFoundValueOnNonEmptyCache() {
         let sut = makeSUT()
-        let feed = uniqueImageFeed()
-        let timestamp = Date()
         
-        insert((feed.local, timestamp), to: sut)
-        
-        expect(sut, toRetrieve: .found((feed.local, timestamp)))
-
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {

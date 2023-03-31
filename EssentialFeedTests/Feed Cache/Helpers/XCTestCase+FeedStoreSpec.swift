@@ -19,6 +19,15 @@ extension FeedStoreSpecs where Self: XCTestCase {
         expect(sut, toRetrieve: .emtpy)
     }
     
+    func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        let feed = uniqueImageFeed()
+        let timestamp = Date()
+        
+        insert((feed.local, timestamp), to: sut)
+        
+        expect(sut, toRetrieve: .found((feed.local, timestamp)))
+    }
+    
     @discardableResult
     func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date) ,to sut: FeedStore) -> Error? {
         var insertionError: Error?

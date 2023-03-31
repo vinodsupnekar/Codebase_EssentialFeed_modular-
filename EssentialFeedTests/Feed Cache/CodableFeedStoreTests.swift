@@ -33,18 +33,13 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore  {
     func test_retrieve_hasNoSideEffectsOnEmptyache() {
         let sut = makeSUT()
         
-        self.expect(sut, toRetrieveTwice: .emtpy)
-        self.expect(sut, toRetrieveTwice: .emtpy)
+        assertThatRetrieve_hasNoSideEffectsOnEmptyache(on: sut)
     }
     
     func test_retrieve_deliversFoundValueOnNonEmptyCache() {
         let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
         
-        insert((feed, timestamp), to: sut)
-        
-        expect(sut, toRetrieve: .found((feed, timestamp)))
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
