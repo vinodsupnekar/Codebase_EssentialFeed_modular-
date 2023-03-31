@@ -89,7 +89,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
         XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
     }
     
-    func assertThatStoreSideEffects_runSerially(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+    func assertThatStoreSideEffectsRunSerially(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
         var completedOperationInOrder = [XCTestExpectation]()
         
         let op1 = expectation(description: "Opearation 1")
