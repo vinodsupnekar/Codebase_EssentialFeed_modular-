@@ -139,14 +139,10 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore  {
         assertThatDeleteDeliversNoErrorOnEmptyCache(on: sut)
     }
     
-    
     func test_delete_emptiesPreviouslyInsertedCache() {
         let sut = makeSUT()
-        insert((uniqueImageFeed().local, Date()), to: sut)
         
-        deleteCache(from: sut)
-        
-        expect(sut, toRetrieve: .emtpy)
+        assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
     }
     
     func test_delete_deleiversErrorOnDeletionError() {
