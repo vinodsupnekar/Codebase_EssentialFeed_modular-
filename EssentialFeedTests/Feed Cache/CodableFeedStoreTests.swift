@@ -74,11 +74,8 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore  {
     
     func test_insert_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
-        insert((uniqueImageFeed().local, Date()), to: sut)
         
-        let insertionError = insert((uniqueImageFeed().local, Date()), to: sut)
-       
-        XCTAssertNil(insertionError, "Expected to override cache successfully")
+        assertThatInsertDeliversNoErrorOnNonEmptyCache(on: sut)
     }
     
     func test_insert_overridesPrevioslyInsertedData() {
