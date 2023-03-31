@@ -123,8 +123,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore  {
         
         let sut = makeSUT()
         
-        let deletionError = deleteCache(from: sut)
-        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        assertThatDeletehasNoSideEffectsOnEmptyCache(on: sut)
     }
     
     func test_delete_deliversNoErrorOnEmptyCache() {

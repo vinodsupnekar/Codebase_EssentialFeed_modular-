@@ -84,6 +84,11 @@ extension FeedStoreSpecs where Self: XCTestCase {
         expect(sut, toRetrieve: .emtpy)
     }
     
+    func assertThatDeletehasNoSideEffectsOnEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        let deletionError = deleteCache(from: sut)
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+    }
+    
     
     @discardableResult
     func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date) ,to sut: FeedStore) -> Error? {
