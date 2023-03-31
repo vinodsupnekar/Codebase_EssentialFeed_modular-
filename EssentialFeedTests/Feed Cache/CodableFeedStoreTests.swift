@@ -80,14 +80,8 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore  {
     
     func test_insert_overridesPrevioslyInsertedData() {
         let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
         
-        insert((feed, timestamp), to: sut)
-
-        insert((feed, timestamp), to: sut)
-
-        expect(sut, toRetrieve: .found((feed: feed, timestamp: timestamp)))
+        assertThatInsertOverridesPrevioslyInsertedData(on: sut)
     }
     
     func test_insert_hasNoSideEffectsByOverridingPrevioslyInsertedData() {
