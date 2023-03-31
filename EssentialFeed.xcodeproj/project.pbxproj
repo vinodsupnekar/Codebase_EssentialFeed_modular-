@@ -215,10 +215,18 @@
 		0450E6BC29D6E177004F1161 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				0450E6C029D6E1C5004F1161 /* CoreData */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		0450E6C029D6E1C5004F1161 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
 				0450E6A329D66C13004F1161 /* CoreDataFeedStore.swift */,
 				0450E6A829D66F1E004F1161 /* FeedStore.xcdatamodeld */,
 			);
-			path = Infrastructure;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		048AD98129BB3ED800F04C73 /* Feed Cache */ = {
