@@ -28,6 +28,15 @@ extension FeedStoreSpecs where Self: XCTestCase {
         expect(sut, toRetrieve: .found((feed.local, timestamp)))
     }
     
+    func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        insert((feed, timestamp), to: sut)
+        
+        expect(sut, toRetrieveTwice: .found((feed, timestamp)))
+    }
+    
     @discardableResult
     func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date) ,to sut: FeedStore) -> Error? {
         var insertionError: Error?
