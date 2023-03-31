@@ -53,24 +53,64 @@ public final class CoreDataFeedStore: FeedStore {
     
     public func insert(_ feed: [LocalFeedImage], timeStamp: Date, completion: @escaping InsertionCompletion) {
         
+        let context = self.context
+        context.perform {
+            do {
+                let managedObject = ManagedCache(context: context)
+                managedObject.timestamp = timeStamp
+                
+                let imageFeed = feed.map { (item) -> ManagedFeedImage in
+                    let managedFeedImage = ManagedFeedImage(context: context)
+                    managedFeedImage.location = item.location
+                    managedFeedImage.imageDescription = item.description
+                    managedFeedImage.id = item.id
+                    managedFeedImage.url = item.url
+                    return managedFeedImage
+                }
+                managedObject.feed = NSOrderedSet(array:imageFeed)
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+        
     }
     
-    public func retrieve(_ completion: @escaping RetrievalCompletion) {
-        completion(.emtpy)
+    public func retrieve(_ completion: @escaping RetrievalCompletion) {        
+        let context = self.context
+        context.perform {
+            let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+            request.returnsObjectsAsFaults = false
+            do {
+                if let cache = try context.fetch(request).first {
+                    completion(.found(
+                                (feed: cache.feed.compactMap { ($0 as? ManagedFeedImage)}
+                                        .map {
+                                                LocalFeedImage(id: $0.id, description: $0.imageDescription, location: $0.location, url: $0.url)},
+                                       timestamp: cache.timestamp)))
+                } else {
+                    completion(.emtpy)
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 }
 
-
+@objc(ManagedCache)
 private class ManagedCache: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var feed: NSOrderedSet
 }
 
+@objc(ManagedFeedImage)
 private class ManagedFeedImage: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var imageDescription: String?
     @NSManaged var location: String?
-    @NSManaged var url: URL?
+    @NSManaged var url: URL
     @NSManaged var cache: ManagedCache
 }
 

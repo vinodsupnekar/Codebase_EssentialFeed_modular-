@@ -22,7 +22,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
     @discardableResult
     func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date) ,to sut: FeedStore) -> Error? {
         var insertionError: Error?
-        let exp = expectation(description: "wait for cache retrieval")
+        let exp = expectation(description: "wait for cache insertion")
         sut.insert(cache.feed, timeStamp: cache.timestamp) { receivedInsertionError in
             insertionError = receivedInsertionError
             exp.fulfill()
