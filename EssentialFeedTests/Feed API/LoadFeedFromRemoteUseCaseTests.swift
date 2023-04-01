@@ -136,9 +136,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
             "image": feedItem.url.absoluteString,
             "description": feedItem.description,
             "location": feedItem.location
-        ].reduce(into: [String: Any]()) { (acc, e) in
-            if let value = e.value { acc[e.key] = value}
-        }
+        ].compactMapValues { $0 }
     }
     
     private func makeItemJSON(_ item: [[String: Any]]) -> Data {
