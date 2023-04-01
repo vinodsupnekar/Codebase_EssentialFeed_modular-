@@ -36,12 +36,7 @@ class EssentialFeedCacheIntegrayionTests: XCTestCase {
         let sutToPerformLoad = makeSUT()
         let feed = uniqueImageFeed().models
         
-        let saveExp = expectation(description: "wait for save completion")
-        sutToPerformSave.save(feed) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp.fulfill()
-        }
-        wait(for: [saveExp], timeout: 1.0)
+        save(feed, with: sutToPerformSave)
         
         expect(sut: sutToPerformLoad, toLoad: feed)
     }
@@ -53,20 +48,9 @@ class EssentialFeedCacheIntegrayionTests: XCTestCase {
         let firstFeed = uniqueImageFeed().models
         let lastFeed = uniqueImageFeed().models
 
-        let saveExp = expectation(description: "wait for save completion")
-        sutToPerformSave.save(firstFeed) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp.fulfill()
-        }
-        wait(for: [saveExp], timeout: 1.0)
-        
-        let saveExp2 = expectation(description: "wait for save completion")
-        sutToPerformLastSave.save(lastFeed) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp2.fulfill()
-        }
-        wait(for: [saveExp2], timeout: 1.0)
-        
+        save(firstFeed, with: sutToPerformSave)
+        save(lastFeed, with: sutToPerformLastSave)
+
         expect(sut: sutToPerformLoad, toLoad: lastFeed)
     }
     
@@ -88,6 +72,15 @@ class EssentialFeedCacheIntegrayionTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func save(_ feed: [FeedImage],with sut: LocalFeedLoader) {
+        let saveExp = expectation(description: "wait for save completion")
+        sut.save(feed) { saveError in
+            XCTAssertNil(saveError, "Expected to save feed successfully")
+            saveExp.fulfill()
+        }
+        wait(for: [saveExp], timeout: 1.0)
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> LocalFeedLoader {
