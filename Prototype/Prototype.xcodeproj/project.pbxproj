@@ -14,6 +14,7 @@
 		044A410929D8FD9300891843 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044A410729D8FD9300891843 /* LaunchScreen.storyboard */; };
 		044A411429D90AAF00891843 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A411329D90AAF00891843 /* FeedViewController.swift */; };
 		044A411729D9571C00891843 /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A411629D9571C00891843 /* FeedImageViewModel.swift */; };
+		044A411A29D9595800891843 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A411929D9595800891843 /* FeedImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		044A410A29D8FD9300891843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		044A411329D90AAF00891843 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		044A411629D9571C00891843 /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
+		044A411929D9595800891843 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				044A410A29D8FD9300891843 /* Info.plist */,
 				044A411329D90AAF00891843 /* FeedViewController.swift */,
 				044A411629D9571C00891843 /* FeedImageViewModel.swift */,
+				044A411929D9595800891843 /* FeedImageCell.swift */,
 			);
 			path = Prototype;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				044A411429D90AAF00891843 /* FeedViewController.swift in Sources */,
 				044A411729D9571C00891843 /* FeedImageViewModel.swift in Sources */,
 				044A40FF29D8FD9000891843 /* SceneDelegate.swift in Sources */,
+				044A411A29D9595800891843 /* FeedImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
