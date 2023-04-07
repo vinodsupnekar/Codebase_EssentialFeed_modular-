@@ -14,17 +14,17 @@ final class FeedViewControllerTests: XCTestCase {
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut,loader) = makeSUT()
         
-        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
+        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loaded")
 
         sut.loadViewIfNeeded()
         
-        XCTAssertEqual(loader.loadCallCount, 1)
+        XCTAssertEqual(loader.loadFeedCallCount, 1)
     
         sut.simulateUserInitiatedFeedReload()
-        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request once user initiates a reload")
+        XCTAssertEqual(loader.loadFeedCallCount, 2, "Expected another loading request once user initiates a reload")
 
         sut.simulateUserInitiatedFeedReload()
-        XCTAssertEqual(loader.loadCallCount, 3, "Expected yet another loading request once user initiates another reload")
+        XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected yet another loading request once user initiates another reload")
     }
     
     func test_loadingFeedIndiacator_isVisibleWhileLoadingFeed() {
@@ -33,14 +33,14 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
 
-        loader.completeFeedLoading(at: 0)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
+        loader.completeFeedLoading()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed successfully")
 
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
 
-        loader.completeFeedLoading(at: 1)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading is completed")
+        loader.completeFeedLoadingWithError(at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading  completes with error")
     }
     
     func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
@@ -53,7 +53,7 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
         
-        loader.completeFeedLoading(with: [image0], at: 0)
+        loader.completeFeedLoading(with: [image0])
         assertThat(sut, isRendering: [image0])
 
         sut.simulateUserInitiatedFeedReload()
@@ -66,7 +66,7 @@ final class FeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        loader.completeFeedLoading(with: [image0], at: 0)
+        loader.completeFeedLoading(with: [image0])
         assertThat(sut, isRendering: [image0])
         
         sut.simulateUserInitiatedFeedReload()
@@ -74,11 +74,27 @@ final class FeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
     }
     
+    func test_feedImageView_loadsImageURLWhenVisible() {
+        let image0 = makeImage(url: URL(string: "http://url-0.com")!)
+        let image1 = makeImage(url: URL(string: "http://url-1.com")!)
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [image0, image1])
+        
+        XCTAssertEqual(loader.loadImageURLs, [], "Expected no image URL requesr until view becomes visible")
+        
+        sut.simulateFeedImageVisible(at: 0)
+        XCTAssertEqual(loader.loadImageURLs, [image0.url], "Expected first image URL request once  view becomes visible")
+
+        
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy){
         let loader = LoaderSpy()
-        let sut = FeedViewController(loader: loader)
+        let sut = FeedViewController(feedLoader: loader, imageLoader: loader)
         trackForMemoryLeaks(loader)
         trackForMemoryLeaks(sut)
         return (sut, loader)
@@ -114,23 +130,31 @@ final class FeedViewControllerTests: XCTestCase {
         return FeedImage(id: UUID(), description: description, location: location, url: url)
     }
     
-    class LoaderSpy: FeedLoader{
+    class LoaderSpy: FeedLoader, FeedImageDataLoader{
         
-        private(set) var loadCallCount: Int = 0
-        private(set) var completions: [((FeedLoader.Result) -> Void)] = []
-        
-        func load(completion: @escaping (FeedLoader.Result) -> Void) {
-            loadCallCount += 1
-            completions.append(completion)
+        var loadFeedCallCount: Int {
+            return feedRequests.count
         }
         
-        func completeFeedLoading(with feed: [FeedImage] = [],at index: Int) {
-            completions[index](.success(feed))
+        private(set) var feedRequests: [((FeedLoader.Result) -> Void)] = []
+        
+        private(set) var loadImageURLs =  [URL]()
+        
+        func load(completion: @escaping (FeedLoader.Result) -> Void) {
+            feedRequests.append(completion)
+        }
+        
+        func completeFeedLoading(with feed: [FeedImage] = [],at index: Int = 0) {
+            feedRequests[index](.success(feed))
         }
         
         func completeFeedLoadingWithError(at index:Int) {
             let error = NSError(domain: "", code: 0)
-            completions[index](.failure(error))
+            feedRequests[index](.failure(error))
+        }
+        
+        func loadImageData(from url: URL) {
+            loadImageURLs.append(url)
         }
     }
 
@@ -139,6 +163,10 @@ final class FeedViewControllerTests: XCTestCase {
 private extension FeedViewController {
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    func simulateFeedImageVisible(at index: Int) {
+        _ = feedImageView(at: index)
     }
     
     var isShowingLoadingIndicator: Bool {
