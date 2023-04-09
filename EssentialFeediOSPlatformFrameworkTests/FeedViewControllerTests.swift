@@ -349,6 +349,13 @@ final class FeedViewControllerTests: XCTestCase {
 }
 
 private extension FeedViewController {
+    
+    func simulateFeedImageNearVisible(at row: Int) {
+        let delegate = tableView.prefetchDataSource
+        let indexPath = IndexPath(row: row, section: feedImageSection)
+        delegate?.tableView(tableView, prefetchRowsAt: [indexPath])
+    }
+    
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }
@@ -359,7 +366,7 @@ private extension FeedViewController {
     }
     
     func simulateFeedImageNotVisible(at row: Int){
-        let view = simulateFeedImageVisible(at: row) as? FeedImageCell
+        let view = simulateFeedImageVisible(at: row)
         
         let delegate = tableView.delegate
         let indexPath = IndexPath(row: row, section: feedImageSection)
