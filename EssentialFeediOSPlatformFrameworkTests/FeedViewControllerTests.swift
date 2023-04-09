@@ -163,6 +163,34 @@ final class FeedViewControllerTests: XCTestCase {
         
         XCTAssertEqual(view1?.renderedImage,imageData1, "Expected  image for the second view once first image loading completes successfully")
     }
+    
+    func test_feedImageViewRetryButton_isVisibleOnImageURLLoadError() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        
+        loader.completeFeedLoading(with: [makeImage(), makeImage()])
+        
+        let view0 = sut.simulateFeedImageVisible(at: 0)
+        let view1 = sut.simulateFeedImageVisible(at: 1)
+        
+        XCTAssertEqual(view0?.isShowRetryAction, false, "Expected no rerty action for first view while loading first image ")
+        
+        XCTAssertEqual(view1?.isShowRetryAction, false, "Expected no rerty action for second view while loading second image")
+
+        let imageData = UIImage.make(withColor: .red).pngData()!
+        loader.completeImageLoading(with: imageData,at: 0)
+        
+        XCTAssertEqual(view0?.isShowRetryAction, false, "Expected no retry action for the first view once first image loading completes successfully")
+        
+        XCTAssertEqual(view1?.isShowRetryAction,false, "Expected no retry action for the second view once first image loading completes successfully")
+
+        loader.completeImageLoadingWithError(at: 1)
+        
+        XCTAssertEqual(view0?.isShowRetryAction,false, "Expected no retry action for the first view once first image loading completes successfully")
+        
+        XCTAssertEqual(view1?.isShowRetryAction,true, "Expected  retry action for the second view once first image loading completes successfully")
+    }
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy){
@@ -310,6 +338,10 @@ private extension FeedImageCell {
         return feedImageContainer.isShimmering
     }
     
+    var isShowRetryAction: Bool {
+        return !feedImageViewRetryButton.isHidden
+    }
+    
     var locationText: String? {
         return locationLabel.text
     }
@@ -321,6 +353,7 @@ private extension FeedImageCell {
     var renderedImage: Data?{
         return feedImageView.image?.pngData()
     }
+    
 }
 
 private extension UIRefreshControl {
