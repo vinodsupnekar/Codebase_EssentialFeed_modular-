@@ -249,9 +249,25 @@ final class FeedViewControllerTests: XCTestCase {
 
         sut.simulateFeedImageNearVisible(at: 1)
         XCTAssertEqual(loader.loadImageURLs, [image0.url, image1.url], "Expected second image URL requests once second image is near visible")
-
-        
     }
+    
+    func test_feedImageView_cancelsImagePreloadingWhenNotNearVisibleAnymore() {
+        let image0 = makeImage(url: URL(string: "http://any-url-0.com")!)
+        let image1 = makeImage(url: URL(string: "http://any-url-1.com")!)
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [image0,image1])
+        XCTAssertEqual(loader.loadImageURLs, [], "Expected no image URL requests until image is near visible")
+
+        sut.simulateFeedImageViewNotNearVisible(at: 0)
+        XCTAssertEqual(loader.cancelledImageURLs, [image0.url], "Expected  first image URL requests once fisrt image is near visible")
+        
+        sut.simulateFeedImageViewNotNearVisible(at: 1)
+        XCTAssertEqual(loader.cancelledImageURLs, [image0.url, image1.url], "Expected  first image URL requests once fisrt image is near visible")
+    }
+    
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy){
@@ -349,11 +365,18 @@ final class FeedViewControllerTests: XCTestCase {
 }
 
 private extension FeedViewController {
-    
     func simulateFeedImageNearVisible(at row: Int) {
         let delegate = tableView.prefetchDataSource
         let indexPath = IndexPath(row: row, section: feedImageSection)
         delegate?.tableView(tableView, prefetchRowsAt: [indexPath])
+    }
+    
+    func simulateFeedImageViewNotNearVisible(at row: Int){
+        simulateFeedImageNearVisible(at: row)
+        
+        let delegate = tableView.prefetchDataSource
+        let indexPath = IndexPath(row: row, section: feedImageSection)
+        delegate?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
     }
     
     func simulateUserInitiatedFeedReload() {
