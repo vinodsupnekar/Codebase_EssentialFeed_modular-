@@ -11,7 +11,7 @@ import EssentialFeediOSPlatformFramework
 extension FeedImageCell {
 
     func simulateRetryAction() {
-        feedImageViewRetryButton.simulateTap()
+        feedImageRetryButton.simulateTap()
     }
     var isShowingLocation: Bool {
         return !locationContainer.isHidden
@@ -22,7 +22,7 @@ extension FeedImageCell {
     }
     
     var isShowRetryAction: Bool {
-        return !feedImageViewRetryButton.isHidden
+        return !feedImageRetryButton.isHidden
     }
     
     var locationText: String? {
