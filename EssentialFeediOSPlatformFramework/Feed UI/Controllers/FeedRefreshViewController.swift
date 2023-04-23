@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FeedRefreshViewController: NSObject, FeedLoading {
+final class FeedRefreshViewController: NSObject, FeedLoadingView {
    
     
     private(set) lazy var view: UIRefreshControl = loadView()
