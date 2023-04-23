@@ -27,6 +27,7 @@
 		0435953529DF32290003925D /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435953429DF32290003925D /* FeedViewControllerTests.swift */; };
 		0435953D29DF35E60003925D /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04046E162994C7A1005CA345 /* EssentialFeed.framework */; platformFilter = ios; };
 		0435953E29DF35E60003925D /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04046E162994C7A1005CA345 /* EssentialFeed.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		043C54F329EEA70F00A1EC9B /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043C54F229EEA70F00A1EC9B /* FeedPresenter.swift */; };
 		043CEE1829E633F8008374EE /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CEE1729E633F8008374EE /* FeedViewModel.swift */; };
 		043D52FF29A710D50084F6ED /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D52FE29A710D50084F6ED /* HTTPClient.swift */; };
 		043D530329A7210C0084F6ED /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D530229A7210C0084F6ED /* FeedItemMapper.swift */; };
@@ -141,6 +142,7 @@
 		0433CD8C29B0374A006BBCFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0435953329DF32280003925D /* EssentialFeediOSPlatformFrameworkTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EssentialFeediOSPlatformFrameworkTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0435953429DF32290003925D /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
+		043C54F229EEA70F00A1EC9B /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		043CEE1729E633F8008374EE /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		043D52FE29A710D50084F6ED /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		043D530229A7210C0084F6ED /* FeedItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemMapper.swift; sourceTree = "<group>"; };
@@ -329,13 +331,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		043CEE1629E633DD008374EE /* Models */ = {
+		043C54F129EEA6EC00A1EC9B /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				043C54F229EEA70F00A1EC9B /* FeedPresenter.swift */,
 				043CEE1729E633F8008374EE /* FeedViewModel.swift */,
 				0447C9C529ED270400590BC7 /* FeedImageViewModel.swift */,
 			);
-			path = Models;
+			path = "Feed Presentation";
 			sourceTree = "<group>";
 		};
 		043D530629A763CB0084F6ED /* Feed API */ = {
@@ -396,7 +399,6 @@
 			isa = PBXGroup;
 			children = (
 				0447C9B829ED147D00590BC7 /* Composer */,
-				043CEE1629E633DD008374EE /* Models */,
 				0458F2F429E40DE20047ED05 /* Views */,
 				0458F2F329E40DD90047ED05 /* Controllers */,
 			);
@@ -447,6 +449,7 @@
 		04597F0D29DBF41B0056096A /* EssentialFeediOSPlatformFramework */ = {
 			isa = PBXGroup;
 			children = (
+				043C54F129EEA6EC00A1EC9B /* Feed Presentation */,
 				0458F2F529E40DF20047ED05 /* Feed Image Loader */,
 				0458F2F229E40DCC0047ED05 /* Feed UI */,
 				04597F0F29DBF41B0056096A /* Info.plist */,
@@ -800,6 +803,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				043C54F329EEA70F00A1EC9B /* FeedPresenter.swift in Sources */,
 				0447C9BA29ED149B00590BC7 /* FeedViewComposer.swift in Sources */,
 				043CEE1829E633F8008374EE /* FeedViewModel.swift in Sources */,
 				0458F2F729E40E250047ED05 /* FeedImageDataLoader.swift in Sources */,
@@ -973,6 +977,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
