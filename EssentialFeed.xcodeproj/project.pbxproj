@@ -69,6 +69,7 @@
 		0469E7F129F7B89A00E61A99 /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469E7F029F7B89900E61A99 /* FeedPresenter.swift */; };
 		0469E80129F7BA1600E61A99 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0469E7E129F7B5BE00E61A99 /* Feed.strings */; };
 		0469E80829F7BAAE00E61A99 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469E80729F7BAAE00E61A99 /* FeedViewModel.swift */; };
+		0469E80F29F7C5A000E61A99 /* FeedLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469E80E29F7C5A000E61A99 /* FeedLoadingViewModel.swift */; };
 		04739E7429F6057F002B5394 /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04739E7329F6057F002B5394 /* Feed.storyboard */; };
 		047FB42029E2970900D9A82F /* UIView+Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047FB41F29E2970900D9A82F /* UIView+Shimmering.swift */; };
 		0488BD2729BE56F000E7BF54 /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0488BD2629BE56F000E7BF54 /* RemoteFeedItem.swift */; };
@@ -204,6 +205,7 @@
 		0469E7E929F7B65400E61A99 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Feed.strings"; sourceTree = "<group>"; };
 		0469E7F029F7B89900E61A99 /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		0469E80729F7BAAE00E61A99 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		0469E80E29F7C5A000E61A99 /* FeedLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoadingViewModel.swift; sourceTree = "<group>"; };
 		04739E7329F6057F002B5394 /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		047FB41F29E2970900D9A82F /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
 		0488BD2629BE56F000E7BF54 /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 				0469E7E129F7B5BE00E61A99 /* Feed.strings */,
 				0469E7F029F7B89900E61A99 /* FeedPresenter.swift */,
 				0469E80729F7BAAE00E61A99 /* FeedViewModel.swift */,
+				0469E80E29F7C5A000E61A99 /* FeedLoadingViewModel.swift */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				0450E6A429D66C13004F1161 /* CoreDataFeedStore.swift in Sources */,
 				0450E6CE29D6E4EC004F1161 /* ManagedCache.swift in Sources */,
 				0450E6C929D6E282004F1161 /* CoredataHelpers.swift in Sources */,
+				0469E80F29F7C5A000E61A99 /* FeedLoadingViewModel.swift in Sources */,
 				0450E6D329D6E4F8004F1161 /* ManagedFeedImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
