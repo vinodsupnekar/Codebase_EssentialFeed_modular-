@@ -19,18 +19,6 @@ public protocol FeedErrorView {
     func display(_ viewMoel: FeedErrorViewModel)
 }
 
-public struct FeedErrorViewModel {
-    public let message: String?
-
-    static var noError: FeedErrorViewModel {
-        return FeedErrorViewModel(message: nil)
-    }
-    
-    static func error(message: String) -> FeedErrorViewModel {
-        return FeedErrorViewModel(message: message)
-    }
-}
-
 public final class FeedPresenter {
     private let errorView: FeedErrorView
     private let loadingView: FeedLoadingView
