@@ -19,13 +19,14 @@ public protocol FeedErrorView {
     func display(_ viewMoel: FeedErrorViewModel)
 }
 
+
 public final class FeedPresenter {
     private let errorView: FeedErrorView
     private let loadingView: FeedLoadingView
     private let feedView: FeedView
 
     private var feedLoadError: String {
-        return NSLocalizedString("FEED_VIEW_CONNECTOR_ERROR",
+        return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
                                  tableName: "Feed",
                                  bundle: Bundle(for: FeedPresenter.self),
                                 comment: "Error message displayed when we cann't load the image from the server")

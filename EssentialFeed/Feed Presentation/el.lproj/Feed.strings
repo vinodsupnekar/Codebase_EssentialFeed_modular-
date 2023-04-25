@@ -7,5 +7,5 @@
 */
 
 "FEED_VIEW_TITLE" = "Η ροή μου";
-"FEED_VIEW_CONNECTOR_ERROR" = "Δεν ήταν δυνατή η σύνδεση με τον διακομιστή";
+"FEED_VIEW_CONNECTION_ERROR" = "Δεν ήταν δυνατή η σύνδεση με τον διακομιστή";
 
