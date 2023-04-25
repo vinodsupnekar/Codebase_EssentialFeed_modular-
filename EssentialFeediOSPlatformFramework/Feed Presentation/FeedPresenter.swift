@@ -44,7 +44,8 @@ final class FeedPresenter {
     
     func didFinishLoadingFeed(with feed: [FeedImage]) {
         feedView.display(FeedViewModel(feed: feed))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        let extractedExpr: FeedLoadingViewModel = FeedLoadingViewModel(isLoading: false)
+        loadingView.display(extractedExpr)
     }
     
     func didFinishLoadingFeed(with error: Error) {
