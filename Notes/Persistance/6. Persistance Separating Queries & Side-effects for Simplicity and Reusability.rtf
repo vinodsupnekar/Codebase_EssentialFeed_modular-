@@ -1,0 +1,30 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Bold;}
+{\colortbl;\red255\green255\blue255;\red25\green26\blue42;}
+{\*\expandedcolortbl;;\cssrgb\c12941\c13725\c21961;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 6.Persistance \
+\pard\pardeftab720\partightenfactor0
+
+\f1\b \cf2 \expnd0\expndtw0\kerning0
+Separating Queries & Side-effects for Simplicity and Reusability:-\
+\
+Load Feed from cache use case is bloated with work now.:- \
+ -It ask store to load feed\
+-It asks store to delete feed on cache validation scenarios.\
+\
+This is violation of Command Query separation principle here.\
+We have to break this use case into 2 so fix this issue.\
+\
+-We have added ValidateFeed use case Test, which is helping us to test the side-effect of load feed query.\
+-Moved all tests from Load feed from cache test with delete feed side effect to Validate feed test case.\
+\
+-Moved helpers to shared file and Feed cache level helper method.\
+\
+-validateCache() method updated with .empty and .found case in single case, replaced with default case.\
+	-By using explicit \'93case\'94 instead of \'93default\'94 we get build error when a new case is added to the enum.\
+	-Build error can be useful as it will remind us to think the validation logic , but it makes our code flexible ( susceptible to breaking changes). Its a trade - off.\
+	- Alternatively , you can add, along with the explicitt cases \'93@unknown default\'94 , which will generate a warning (rather than a build error) , when new case are added.\
+ }
