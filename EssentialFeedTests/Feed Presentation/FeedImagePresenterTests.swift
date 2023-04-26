@@ -79,7 +79,7 @@ class FeedImagePresenterTests: XCTestCase {
     }
     
     func test_didFinishLoadingImageData_displaysRetryOnFailedImageTransformation(with data: Data, for model: FeedImage) {
-        let (sut, view) = makeSUT(imageTranfsormer: {_ in })
+        let (sut, view) = makeSUT(imageTranfsormer: fail)
         let image = uniqueImage()
         let data = Data()
         
@@ -93,9 +93,13 @@ class FeedImagePresenterTests: XCTestCase {
         XCTAssertEqual(message?.shouldRetry, true)
     }
     
+    private var fail: (Data) -> Any? {
+        return { _ in nil }
+    }
+    
     // MARK:- Helper
     
-    private func makeSUT(imageTranfsormer: @escaping (Data) -> Void = {_ in }, file: StaticString = #file, line: UInt = #line) -> (sut: FeedImagePresenter, view: ViewSpy) {
+    private func makeSUT(imageTranfsormer: @escaping (Data) -> Any? = { _ in nil}, file: StaticString = #file, line: UInt = #line) -> (sut: FeedImagePresenter, view: ViewSpy) {
         let view = ViewSpy()
         let sut = FeedImagePresenter(view: view, imageTransformer: imageTranfsormer)
         trackForMemoryLeaks(view)
