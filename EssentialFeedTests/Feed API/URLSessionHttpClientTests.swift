@@ -92,7 +92,7 @@ class URLSessionHttpClientsTests: XCTestCase {
         let result = resultFor(data: data, response: response, error: error)
         
         switch result {
-        case let .success(data, response):
+        case let .success((data, response)):
             return (data, response)
         default:
            return nil
@@ -128,7 +128,7 @@ class URLSessionHttpClientsTests: XCTestCase {
     }
     
     private func anyData() -> Data {
-        return  Data(bytes: "any data".utf8)
+        return  Data("any data".utf8)
     }
     
     

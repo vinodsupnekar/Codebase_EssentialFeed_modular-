@@ -44,7 +44,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
             
         
         let url = URL(string: "http://any-url.com")!
-        let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30)
+        _ = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30)
         
         trackForMemoryLeaks(httpClient, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
