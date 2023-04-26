@@ -8,10 +8,6 @@
 import XCTest
 import EssentialFeed
 
-protocol HTTPImageClient {
-    func loadImageData(url: URL)
-}
-
 class RemoteFeedImageDataLoader {
     private let client: HTTPClient
     init(client: HTTPClient) {
