@@ -14,10 +14,14 @@ class RemoteFeedImageDataLoader {
         self.client = client
     }
     
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+    
     func loadImageData(url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void = { _ in }) {
         client.get(from: url) { result in
             switch result {
-            case .success: completion(.failure(anyNSError()))
+            case .success: completion(.failure(RemoteFeedImageDataLoader.Error.invalidData))
             case let .failure(error): completion(.failure(error))
             }
         }
@@ -64,13 +68,21 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     
     func test_loadImageFromDataFromURL_deliversErrorOnNo200HttpResponse() {
         let (client, sut) = makeSUT()
-        let error = anyNSError()
         let samples = [199, 201, 400, 500]
         
         samples.enumerated().forEach { index, code in
-            expect(sut, toCompleteWith: .failure(error)) {
+            expect(sut, toCompleteWith: .failure(RemoteFeedImageDataLoader.Error.invalidData)) {
                 client.complete(withStatusCode: code, data: anyData(), at: index)
             }
+        }
+    }
+    
+    func test_loadImageFromDataFromURL_deliversInvalidDataErrorOn200HTTPResponseWithEmptyData() {
+        let (client, sut) = makeSUT()
+        
+        expect(sut, toCompleteWith: .failure(RemoteFeedImageDataLoader.Error.invalidData)) {
+            let emptyData = Data("".utf8)
+            client.complete(withStatusCode: 200, data: emptyData)
         }
     }
     
@@ -93,7 +105,10 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
             case let (.success(receivedData), .success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData, file: file, line: line)
                 break
-            
+                
+            case let (.failure(receivedError as RemoteFeedImageDataLoader.Error), .failure(expectedError as RemoteFeedImageDataLoader.Error)):
+               XCTAssertEqual(receivedError , expectedError, file: file, line: line)
+                
             case let (.failure(receivedError), .failure(expectedError) ):
                 XCTAssertEqual(receivedError as NSError, expectedError as NSError, file: file, line: line)
 
