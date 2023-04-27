@@ -21,7 +21,12 @@ class RemoteFeedImageDataLoader {
     func loadImageData(url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void = { _ in }) {
         client.get(from: url) { result in
             switch result {
-            case .success: completion(.failure(RemoteFeedImageDataLoader.Error.invalidData))
+            case let .success((data, response)):
+                if response.statusCode == 200, !data.isEmpty {
+                    completion(.success(data))
+                } else {
+                completion(.failure(RemoteFeedImageDataLoader.Error.invalidData))
+                }
             case let .failure(error): completion(.failure(error))
             }
         }
@@ -66,7 +71,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         }
     }
     
-    func test_loadImageFromDataFromURL_deliversErrorOnNo200HttpResponse() {
+    func test_loadImageDataFromURL_deliversErrorOnNo200HttpResponse() {
         let (client, sut) = makeSUT()
         let samples = [199, 201, 400, 500]
         
@@ -77,12 +82,21 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         }
     }
     
-    func test_loadImageFromDataFromURL_deliversInvalidDataErrorOn200HTTPResponseWithEmptyData() {
+    func test_loadImageDataFromURL_deliversInvalidDataErrorOn200HTTPResponseWithEmptyData() {
         let (client, sut) = makeSUT()
         
         expect(sut, toCompleteWith: .failure(RemoteFeedImageDataLoader.Error.invalidData)) {
             let emptyData = Data("".utf8)
             client.complete(withStatusCode: 200, data: emptyData)
+        }
+    }
+    
+    func test_loadImageDataFromURL_deliversReceivedNoEmptyDataon200HTTPResponse() {
+        let (client, sut) = makeSUT()
+        let nonEmptyData = Data("non-empty data".utf8)
+   
+        expect(sut, toCompleteWith: .success(nonEmptyData)) {
+            client.complete(withStatusCode: 200, data: nonEmptyData)
         }
     }
     
