@@ -26,6 +26,7 @@ public final class URLSessionHttpClient: HTTPClient {
         }
     }
 
+    @discardableResult
     public func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
         let task = session.dataTask(with: url) { data, response, error in
             completion( Result {
