@@ -66,7 +66,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     func test_init_doesNotPerformAnyURLRequest() {
         let (client, _) = makeSUT()
         
-        XCTAssertTrue(client.receivedMessages.isEmpty)
+        XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_loadImageDataFromURL_requestsDataFromURL() {
@@ -75,7 +75,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         
         sut.loadImageData(from: url) { _ in }
 
-        XCTAssertEqual(client.receivedMessages.first?.url, url)
+        XCTAssertEqual(client.requestedURLs.first, url)
     }
     
     func test_loadImageDataFromURLTwice_requestsDataFromURLTwice() {
@@ -85,7 +85,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         sut.loadImageData(from: url) { _ in }
         sut.loadImageData(from: url) { _ in }
 
-        let urlArray = client.receivedMessages.map { $0.url }
+        let urlArray = client.requestedURLs.map { $0 }
         
         XCTAssertEqual(urlArray, [url, url])
     }
@@ -129,7 +129,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     }
     
     func test_loadImageDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let client = HTTPClienSpy()
+        let client = HTTPClientSpy()
         var sut: RemoteFeedImageDataLoader? = RemoteFeedImageDataLoader(client: client)
         
         var caprturedResult = [FeedImageDataLoader.Result](
@@ -175,8 +175,8 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     
     // MARK:- Helper's
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (HTTPClienSpy, RemoteFeedImageDataLoader) {
-        let client = HTTPClienSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (HTTPClientSpy, RemoteFeedImageDataLoader) {
+        let client = HTTPClientSpy()
         let sut = RemoteFeedImageDataLoader(client: client)
         trackForMemoryLeaks(client)
         trackForMemoryLeaks(sut)
@@ -207,40 +207,5 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         }
         action()
         wait(for: [exp], timeout: 1.0)
-    }
-        
-    private class HTTPClienSpy: HTTPClient {
-
-        private struct Task: HTTPClientTask {
-            let callBack: () -> Void
-            
-            func cancel() {
-                callBack()
-            }
-        }
-        
-        var cancelledURLs = [URL]()
-        
-        var receivedMessages = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
-        
-        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
-            receivedMessages.append((url,completion))
-            return Task { [weak self] in
-                self?.cancelledURLs.append(url)
-            }
-
-        }
-        
-        func complete(with error: Error, at index: Int = 0) {
-            receivedMessages[index].completion(.failure(error))
-        }
-        
-        func complete(withStatusCode code: Int, data: Data,at index: Int = 0) {
-            let httpResponse = HTTPURLResponse(url: receivedMessages[index].url,
-                                               statusCode: code,
-                                               httpVersion: nil,
-                                               headerFields: nil)!
-            receivedMessages[index].completion(.success((data, httpResponse)))
-        }
     }
 }
