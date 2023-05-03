@@ -37,11 +37,11 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         XCTAssertEqual(urlArray, [url, url])
     }
     
-    func test_loadImageDataFromURL_deliversErrorOnClientError() {
+    func test_loadImageDataFromURL_deliversConnectivityErrorOnClientError() {
         let (client, sut) = makeSUT()
         let expectedError = anyNSError()
 
-        expect(sut, toCompleteWith: .failure(expectedError)) {
+        expect(sut, toCompleteWith: failure(.connectivity)) {
             client.complete(with: expectedError)
         }
     }
@@ -121,6 +121,10 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     }
     
     // MARK:- Helper's
+    
+    private func failure(_ error: RemoteFeedImageDataLoader.Error) -> RemoteFeedImageDataLoader.Result {
+        return .failure(error)
+    }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (HTTPClientSpy, RemoteFeedImageDataLoader) {
         let client = HTTPClientSpy()
