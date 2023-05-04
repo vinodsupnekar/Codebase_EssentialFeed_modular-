@@ -7,14 +7,14 @@
 
 import XCTest
 
+final class LocalFeedImageDataLoader {
+    init( store: Any) {
+
+    }
+}
+
 class LocalFeedImageDataLoaderTests: XCTestCase {
     
-    final class LocalFeedImageDataLoader {
-        init( store: Any) {
-
-        }
-    }
-
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
         
