@@ -13,7 +13,7 @@ final class LocalFeedImageDataLoader {
     
     private let store: FeedImageDataStore
     
-    private final class Task: FeedImageDataLoaderTask {
+    private final class LoadImageDataTask: FeedImageDataLoaderTask {
         var completion: ((FeedImageDataLoader.Result) -> Void)?
         
         init(_ completion: @escaping (FeedImageDataLoader.Result) -> Void) {
@@ -33,7 +33,7 @@ final class LocalFeedImageDataLoader {
         }
     }
     
-    public enum Error: Swift.Error {
+    public enum LoadError: Swift.Error {
         case failed
         case notFound
     }
@@ -43,15 +43,23 @@ final class LocalFeedImageDataLoader {
     }
     
     func loadImageData(from url:URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-        let task = Task(completion)
+        let task = LoadImageDataTask(completion)
         store.retrieve(dataForURL: url) { [weak self] result in
             guard self != nil else { return }
             task.complete(with: result
-                        .mapError{ _ in Error.failed }
-                        .flatMap { data in data.map { .success($0) } ?? .failure(Error.notFound) }
+                        .mapError{ _ in LoadError.failed }
+                        .flatMap { data in data.map { .success($0) } ?? .failure(LoadError.notFound) }
             )
         }
         return task
+    }
+}
+
+extension LocalFeedImageDataLoader {
+    public typealias SaveResult = Result<Void, Swift.Error>
+
+    public func save(_ data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
+        store.insert(data, for: url) { _ in }
     }
 }
 
@@ -75,11 +83,11 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
     func test_loadImageDataFromURL_failsOnStoreError() {
         let (sut, store) = makeSUT()
 
-        let expectedResult: FeedImageDataLoader.Result = .failure(LocalFeedImageDataLoader.Error.failed as Error)
+        let expectedResult: FeedImageDataLoader.Result = .failure(LocalFeedImageDataLoader.LoadError.failed as Error)
 
         expect(sut, toCompleteWith: expectedResult) {
             let retrievalError = anyNSError()
-            store.complete(with: retrievalError)
+            store.completeRetrieval(with: retrievalError)
         }
     }
         
@@ -87,7 +95,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         let (sut, store) = makeSUT()
         
         expect(sut, toCompleteWith: notFound()) {
-            store.complete(with: .none)
+            store.completeRetrieval(with: .none)
         }
     }
     
@@ -96,7 +104,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         let foundData = anyData()
         
         expect(sut, toCompleteWith: .success(foundData)) {
-            store.complete(with: foundData)
+            store.completeRetrieval(with: foundData)
         }
     }
     
@@ -111,9 +119,9 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         
         task.cancel()
         
-        store.complete(with: foundData)
-        store.complete(with: .none)
-        store.complete(with: anyNSError())
+        store.completeRetrieval(with: foundData)
+        store.completeRetrieval(with: .none)
+        store.completeRetrieval(with: anyNSError())
         
         XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task")
     }
@@ -129,11 +137,20 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         }
         
         sut = nil
-        store.complete(with: anyData())
+        store.completeRetrieval(with: anyData())
         
         XCTAssertTrue(received.isEmpty, "Expected no received results after instance has been deallocated")
     }
     
+    func test_saveImageDataForURL_requestImageDataInsertionForURL() {
+        let (sut, store)  = makeSUT()
+        let url = anyURL()
+        let data = anyData()
+        
+        sut.save(data, for: url) { _ in }
+        
+        XCTAssertEqual(store.receivedMessages, [.insert(data: data, for: url)])
+    }
 
     
     // MARK:- Helper's
@@ -148,7 +165,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
     }
     
     private func notFound() -> FeedImageDataLoader.Result {
-            return .failure(LocalFeedImageDataLoader.Error.notFound)
+            return .failure(LocalFeedImageDataLoader.LoadError.notFound)
         }
     
     private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
@@ -158,7 +175,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
             switch (receivedResult, expectedResult) {
             case let (.success(receivedData), .success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData)
-            case let (.failure( expectedError as LocalFeedImageDataLoader.Error), .failure( receivedResult as LocalFeedImageDataLoader.Error)):
+            case let (.failure( expectedError as LocalFeedImageDataLoader.LoadError), .failure( receivedResult as LocalFeedImageDataLoader.LoadError)):
                 XCTAssertEqual(expectedError, receivedResult)
             default:
                 XCTFail("Expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
@@ -172,23 +189,28 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
     private class StoreSpy: FeedImageDataStore {
         
         enum Message: Equatable {
+            case insert(data: Data, for: URL)
             case retrieve(dataFor: URL)
         }
         
         private(set) var receivedMessages = [Message]()
-        private var completions = [(FeedImageDataStore.Result) -> Void]()
+        private var retrievalCompletions = [(FeedImageDataStore.RetrievalResult) -> Void]()
         
-        func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.Result) -> Void) {
+        func insert(_ data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
+            receivedMessages.append(.insert(data: data, for: url))
+        }
+
+        func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
             receivedMessages.append(.retrieve(dataFor: url))
-            completions.append(completion)
+            retrievalCompletions.append(completion)
         }
         
-        func complete(with error: Error, at index: Int = 0) {
-            completions[index](.failure(error))
+        func completeRetrieval(with error: Error, at index: Int = 0) {
+            retrievalCompletions[index](.failure(error))
         }
         
-        func complete(with data: Data?, at index: Int = 0){
-            completions[index](.success(data))
+        func completeRetrieval(with data: Data?, at index: Int = 0){
+            retrievalCompletions[index](.success(data))
         }
         
     }

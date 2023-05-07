@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class LocalFeedImageDataLoader: FeedImageDataLoader {
+final class LocalFeedImageDataLoader {
     
     private let store: FeedImageDataStore
     
